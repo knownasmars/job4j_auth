@@ -1,10 +1,10 @@
-package ru.job4j.rest.controller;
+package ru.job4j.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.rest.domain.Person;
-import ru.job4j.rest.repository.PersonRepository;
+import ru.job4j.repository.PersonRepository;
+import ru.job4j.domain.Person;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class PersonController {
 
     @GetMapping("/")
     public List<Person> findAll() {
-        return (List) this.persons.findAll();
+        return (List<Person>) this.persons.findAll();
     }
 
     @GetMapping("/{id}")

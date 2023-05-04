@@ -1,4 +1,4 @@
-package ru.job4j.rest.domain;
+package ru.job4j.domain;
 
 import lombok.Data;
 

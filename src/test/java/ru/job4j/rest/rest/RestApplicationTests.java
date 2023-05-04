@@ -1,4 +1,4 @@
-package ru.job4j.rest;
+package ru.job4j.rest.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -41,8 +41,8 @@ public class PersonController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Person person) {
-        if (this.persons.save(person)) {
+    public ResponseEntity<Void> update(@RequestBody Person pers) {
+        if (this.persons.save(pers)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();

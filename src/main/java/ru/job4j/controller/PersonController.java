@@ -1,5 +1,6 @@
 package ru.job4j.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/person")
+@AllArgsConstructor
 public class PersonController {
 
     private final PersonService persons;
-
-    public PersonController(final PersonService persons) {
-        this.persons = persons;
-    }
 
     @GetMapping("/")
     public List<Person> findAll() {

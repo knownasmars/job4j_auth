@@ -18,15 +18,29 @@ public class PersonService {
         return personRepository.findAll();
     }
 
+    public Person create(Person person) {
+        return personRepository.save(person);
+    }
+
     public Optional<Person> findById(int id) {
         return personRepository.findById(id);
     }
 
-    public Person save(Person person) {
-        return personRepository.save(person);
+    public boolean save(Person person) {
+        var res = personRepository.findById(person.getId());
+        if (res.isPresent()) {
+            personRepository.save(person);
+            return true;
+        }
+        return false;
     }
 
-    public void delete(Person person) {
-        personRepository.save(person);
+    public boolean delete(Person person) {
+        var res = personRepository.findById(person.getId());
+        if (res.isPresent()) {
+            personRepository.delete(person);
+            return true;
+        }
+        return false;
     }
 }

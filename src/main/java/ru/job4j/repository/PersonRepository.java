@@ -13,4 +13,6 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
     List<Person> findAll();
 
     Optional<Person> findById(int id);
+
+    Person findByLogin(String login);
 }

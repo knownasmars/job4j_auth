@@ -1,7 +1,10 @@
-package ru.job4j.url;
+package ru.job4j.controller;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import ru.job4j.domain.Person;
+import ru.job4j.service.PersonService;
 
 import java.util.List;
 
@@ -9,11 +12,11 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserStore users;
+    private PersonService users;
+
     private BCryptPasswordEncoder encoder;
 
-    public UserController(UserStore users,
-                          BCryptPasswordEncoder encoder) {
+    public UserController(PersonService users, BCryptPasswordEncoder encoder) {
         this.users = users;
         this.encoder = encoder;
     }

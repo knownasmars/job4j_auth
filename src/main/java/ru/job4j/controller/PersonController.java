@@ -7,7 +7,6 @@ import ru.job4j.domain.Person;
 import ru.job4j.service.PersonService;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/person")
@@ -43,7 +42,6 @@ public class PersonController {
 
     @PutMapping("/")
     public ResponseEntity<Void> update(@RequestBody Person person) {
-        var pers = persons.findById(person.getId());
         if (this.persons.save(person)) {
             return ResponseEntity.ok().build();
         }

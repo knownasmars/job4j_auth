@@ -1,5 +1,6 @@
-package ru.job4j.url;
+package ru.job4j.config;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,12 +12,18 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
+import ru.job4j.filter.JWTAuthenticationFilter;
+import ru.job4j.filter.JWTAuthorizationFilter;
+import ru.job4j.service.UserDetailsServiceImpl;
 
-import static ru.job4j.url.JWTAuthenticationFilter.SIGN_UP_URL;
+import static ru.job4j.filter.JWTAuthenticationFilter.SIGN_UP_URL;
 
+@Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
+
     private UserDetailsServiceImpl userDetailsService;
+
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {

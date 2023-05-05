@@ -26,6 +26,10 @@ public class PersonService {
         return personRepository.findById(id);
     }
 
+    public Person findByLogin(String login) {
+        return personRepository.findByLogin(login);
+    }
+
     public boolean save(Person person) {
         var res = personRepository.findById(person.getId());
         if (res.isPresent()) {

@@ -1,4 +1,4 @@
-package ru.job4j.url;
+package ru.job4j.service;
 
 public interface UserDetailsService {
 }

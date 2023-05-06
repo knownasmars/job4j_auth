@@ -20,14 +20,15 @@ Authorization
 - Thymeleaf 3;
 - Bootstrap 5;
 - Liquibase 4;
+- Postman 10;
 
 ## Environment
-JDK 17, IntelliJ IDEA CE 2021.3.3, Maven 3.8.1, PostrgreSQL 15
+JDK 17, IntelliJ IDEA CE 2021.3.3, Maven 3.8.1, PostrgreSQL 15, Postman 10.13.0
 
 ## Launch
 1. Create database: fullstack_auth.
-2. Run the application from Main.class.
-3. Run the browser and open the main page: http://localhost:8080/index.
+2. Run the application from Job4jAuthApplication.class.
+3. Run the browser and open the main page: http://localhost:8080/.
 
 ## Contacts
 telegram: @knownasmars

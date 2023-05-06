@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.domain.Person;
 import ru.job4j.service.PersonService;
 
@@ -25,13 +26,21 @@ public class PersonController {
     public ResponseEntity<Person> findById(@PathVariable int id) {
         var person = this.persons.findById(id);
         return new ResponseEntity<>(
-                person.orElse(new Person()),
-                person.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND
+                person.orElseThrow(
+                        () -> new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Person is not found."
+                        )
+                ),
+                HttpStatus.OK
         );
     }
 
     @PostMapping("/")
     public ResponseEntity<Person> create(@RequestBody Person person) {
+        if (person == null) {
+            throw new NullPointerException("Person cannot be null");
+        }
         return new ResponseEntity<>(
                 this.persons.create(person).get(),
                 HttpStatus.CREATED
@@ -39,8 +48,8 @@ public class PersonController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Person pers) {
-        if (this.persons.save(pers)) {
+    public ResponseEntity<Void> update(@RequestBody Person person) {
+        if (this.persons.save(person)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();

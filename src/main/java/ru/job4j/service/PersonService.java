@@ -1,6 +1,8 @@
 package ru.job4j.service;
 
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +19,8 @@ import static java.util.Collections.emptyList;
 @AllArgsConstructor
 public class PersonService {
 
+    private static final Logger LOG = LogManager.getLogger(PersonService.class.getName());
+
     private final PersonRepository personRepository;
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -31,8 +35,14 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Person create(Person person) {
-        return personRepository.save(person);
+    public Optional<Person> create(Person person) {
+        try {
+            personRepository.save(person);
+            return Optional.ofNullable(person);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return Optional.empty();
     }
 
     public Optional<Person> findById(int id) {

@@ -18,13 +18,13 @@ public class PersonController {
     private final PersonService persons;
 
     @GetMapping("/")
-    public List<Person> findAll() {
-        return this.persons.findAll();
+    public ResponseEntity<List<Person>> findAll() {
+        return ResponseEntity.ok(persons.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Person> findById(@PathVariable int id) {
-        var person = this.persons.findById(id);
+        var person = persons.findById(id);
         return new ResponseEntity<>(
                 person.orElseThrow(
                         () -> new ResponseStatusException(

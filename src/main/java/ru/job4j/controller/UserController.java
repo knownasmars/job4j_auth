@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import ru.job4j.domain.Person;
+import ru.job4j.model.Person;
 import ru.job4j.service.PersonService;
 
 import javax.servlet.http.HttpServletRequest;

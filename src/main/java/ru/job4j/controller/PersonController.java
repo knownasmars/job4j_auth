@@ -5,13 +5,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import ru.job4j.domain.Person;
+import ru.job4j.model.Operation;
+import ru.job4j.model.Person;
 import ru.job4j.dto.PersonDTO;
 import ru.job4j.service.PersonService;
 
+import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -44,10 +47,9 @@ public class PersonController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Person> create(@RequestBody Person person) {
-        if (person == null) {
-            throw new NullPointerException("Person cannot be null");
-        }
+    @Validated(Operation.OnCreate.class)
+    public ResponseEntity<Person> create(@Valid @RequestBody Person person) {
+        person.setPassword(encoder.encode(person.getPassword()));
         return new ResponseEntity<>(
                 this.persons.create(person).get(),
                 HttpStatus.CREATED
@@ -55,8 +57,9 @@ public class PersonController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Person person) {
-        if (this.persons.save(person)) {
+    public ResponseEntity<Void> update(@Valid @RequestBody Person person) {
+        person.setPassword(encoder.encode(person.getPassword()));
+        if (persons.save(person)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
@@ -73,20 +76,14 @@ public class PersonController {
     }
 
     @PatchMapping("/password")
-    public Person newPassword(@RequestBody PersonDTO personDTO) throws InvocationTargetException, IllegalAccessException {
-        String password = personDTO.getPassword();
-        if (password == null) {
-            throw new NullPointerException("Password mustn't be empty");
-        }
-        if (password.length() < 6) {
-            throw new IllegalArgumentException("Invalid password. Password length must be more than 5 characters.");
-        }
+    public Person newPassword(@Valid @RequestBody PersonDTO personDTO)
+            throws InvocationTargetException, IllegalAccessException {
         var personOptional = persons.findById(personDTO.getId());
         if (personOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         var person = personOptional.get();
-        person.setPassword(encoder.encode(password));
+        person.setPassword(encoder.encode(personDTO.getPassword()));
         persons.save(person);
         return person;
     }
